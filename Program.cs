@@ -1,5 +1,5 @@
 using Microsoft.OpenApi.Models;
-using PizzaStore.DB;
+using Phonebook.DB;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,8 +8,8 @@ builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo
     {
-        Title = "PizzaStore Entities",
-        Description = "Making the Pizzas you love",
+        Title = "My Phonebook",
+        Description = "",
         Version = "v1"
     });
 });
@@ -18,15 +18,15 @@ var app = builder.Build();
 app.UseSwagger();
 app.UseSwaggerUI(c =>
 {
-    c.SwaggerEndpoint("/swagger/v1/swagger.json", "PizzaStore Entities V1");
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "My Phonebook V1");
 });
 
 
-app.MapGet("/pizzas", () => PizzaDB.GetPizzas());
-app.MapGet("/pizzas/{id}", (int id) => PizzaDB.GetPizza(id));
-app.MapPost("/pizzas", (Pizza pizza) => PizzaDB.CreatePizza(pizza));
-app.MapPut("/pizzas", (Pizza pizza) => PizzaDB.UpdatePizza(pizza));
-app.MapDelete("/pizzas/{id}", (int id) => PizzaDB.RemovePizza(id));
+app.MapGet("/contacts", () => PhonebookDB.GetAllContacts());
+app.MapGet("/contact/{id}", (int id) => PhonebookDB.GetContact(id));
+app.MapPost("/contact", (Contact contact) => PhonebookDB.CreateContact(contact));
+app.MapPut("/contact", (Contact contact) => PhonebookDB.UpdateContact(contact));
+app.MapDelete("/contact/{id}", (int id) => PhonebookDB.RemoveContact(id));
 
 
 app.Run();

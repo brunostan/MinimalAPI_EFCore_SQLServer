@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="PizzaStore.DB\Pizza.cs" />
+    <None Include="Phonebook.DB\Phonebook.cs" />
   </ItemGroup>
 
   <ItemGroup>
