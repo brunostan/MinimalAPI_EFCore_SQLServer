@@ -15,12 +15,12 @@ builder.Services.AddSwaggerGen(c =>
 });
 
 var app = builder.Build();
+
 app.UseSwagger();
 app.UseSwaggerUI(c =>
 {
     c.SwaggerEndpoint("/swagger/v1/swagger.json", "My Phonebook V1");
 });
-
 
 app.MapGet("/contacts", () => PhonebookDB.GetAllContacts());
 app.MapGet("/contact/{id}", (int id) => PhonebookDB.GetContact(id));
