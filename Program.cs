@@ -1,7 +1,16 @@
+using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
-using Phonebook.DB;
+using Phonebook;
+using PhoneBook.Data;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddDbContext<PhonebookContext>(options =>
+{
+    options.UseSqlServer
+    (
+        builder.Configuration.GetConnectionString("PhonebookContext") ?? throw new InvalidOperationException("Connection string 'PhonebookContext' not found.")
+    );
+});
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
@@ -22,11 +31,6 @@ app.UseSwaggerUI(c =>
     c.SwaggerEndpoint("/swagger/v1/swagger.json", "My Phonebook V1");
 });
 
-app.MapGet("/contacts", () => PhonebookDB.GetAllContacts());
-app.MapGet("/contact/{id}", (int id) => PhonebookDB.GetContact(id));
-app.MapPost("/contact", (Contact contact) => PhonebookDB.CreateContact(contact));
-app.MapPut("/contact", (Contact contact) => PhonebookDB.UpdateContact(contact));
-app.MapDelete("/contact/{id}", (int id) => PhonebookDB.RemoveContact(id));
-
+app.MapContactEndpoints();
 
 app.Run();
